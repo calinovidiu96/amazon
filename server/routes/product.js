@@ -1,26 +1,29 @@
 const router = require('express').Router();
 const Product = require('../models/product');
 
-const multer = require('multer');
-const storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        cb(null, './uploads/products');
-    },
-    filename: function(req, file, cb) {
-        cb(null, new Date().toISOString() + file.originalname);
-    }  
-});
-const upload = multer({storage: storage});
+const upload = require('../middlewares/upload-photo');
+
+// const multer = require('multer');
+// const storage = multer.diskStorage({
+//     destination: function(req, file, cb) {
+//         cb(null, './uploads/products');
+//     },
+//     filename: function(req, file, cb) {
+//         cb(null, new Date().toISOString() + file.originalname);
+//     }  
+// });
+// const upload = multer({storage: storage});
+
 
 // POST request - create new product
 router.post('/products', upload.single('photo'), async (req, res) => {
-    console.log(req.file);
+   console.log(req.file);
     try{
         let product = new Product();
 
         product.title = req.body.title;
         product.description = req.body.description;
-        product.photo = req.file.path;
+        product.photo = req.file.location;
         product.price = req.body.price;
         product.stockQuantity = req.body.stockQuantity;
 

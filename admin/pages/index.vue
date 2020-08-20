@@ -7,9 +7,9 @@
         <div class="col-sm-8 col-8">
           <h1 class="a-size-larg a-spacing-none a-text-normal">All products</h1>
           <div class="a-spacing-large"></div>
-          <a href="#" class="a-button-buy-again">Add a new product</a>
-          <a href="#" class="a-button-history margin-right-10">Add a new category</a>
-          <a href="#" class="a-button-history margin-right-10">Add a new owner</a>
+          <nuxt-link to="/products" class="a-button-buy-again">Add a new product</nuxt-link>
+          <nuxt-link to="/category" class="a-button-history margin-right-10">Add a new category</nuxt-link>
+          <nuxt-link to="/owner" class="a-button-history margin-right-10">Add a new owner</nuxt-link>
         </div>
       </div>
     </div>
@@ -51,8 +51,8 @@
             </div>
             <!-- Product buttons -->
             <div class="a-row">
-               <a href="#" class="a-button-history margin-right-10">Update</a>
-               <a href="#" class="a-button-history margin-right-10">Delete</a>
+               <nuxt-link :to="`/products/${product._id}`"  class="a-button-history margin-right-10">Update</nuxt-link>
+               <a href="#" class="a-button-history margin-right-10" @click="onDeleteProduct(product._id, index)">Delete</a>
             </div>
           </div>
         </div>
@@ -69,12 +69,24 @@ export default {
   async asyncData({ $axios }) {
     try {
       let response = await $axios.$get('http://localhost:3000/api/products');
-      console.log(response)
       return {
         products: response.products
       }
     } catch(err) {
+      console.log(err)
+    }
+  },
+  methods: {
+    async onDeleteProduct(id, index){
+      try{
+        let response = await this.$axios.$delete(`http://localhost:3000/api/products/${id}`);
 
+        if(response.status){
+          this.products.splice(index, 1);
+        }
+      } catch(err){
+        console.log(err);
+      }
     }
   }
 }
@@ -83,4 +95,3 @@ export default {
 <style>
 
 </style>
-

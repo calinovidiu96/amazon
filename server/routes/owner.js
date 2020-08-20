@@ -1,16 +1,17 @@
 const router = require('express').Router();
 const Owner = require('../models/owner');
+const upload = require('../middlewares/upload-photo');
 
-const multer = require('multer');
-const storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        cb(null, './uploads/owners');
-    },
-    filename: function(req, file, cb) {
-        cb(null, new Date().toISOString() + file.originalname);
-    }  
-});
-const upload = multer({storage: storage});
+// const multer = require('multer');
+// const storage = multer.diskStorage({
+//     destination: function(req, file, cb) {
+//         cb(null, './uploads/owners');
+//     },
+//     filename: function(req, file, cb) {
+//         cb(null, new Date().toISOString() + file.originalname);
+//     }  
+// });
+// const upload = multer({storage: storage});
 
 //POST request
 router.post('/owners', upload.single('photo'), async(req, res) => {
@@ -19,7 +20,7 @@ router.post('/owners', upload.single('photo'), async(req, res) => {
         let owner = new Owner();
         owner.name = req.body.name;
         owner.about = req.body.about;
-        owner.photo = req.file.path;
+        owner.photo = req.file.location;
 
         await owner.save();
 

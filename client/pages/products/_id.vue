@@ -366,7 +366,7 @@ import ReviewSection from '~/components/ReviewSection';
 export default {
   components: {
     ReviewSection,
-    StarRating
+    StarRating 
   },
   async asyncData({ $axios, params }){
       try {

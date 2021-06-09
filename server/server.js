@@ -8,9 +8,10 @@ const cors = require('cors');
 dotenv.config();
 const app = express();
 
+
 mongoose.connect(
     process.env.DATABASE,
-    { useNewUrlParser: true, useUnifiedTopology: true },
+    { useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true },
     (err)=>{ 
         if(err){
             console.log(err);
@@ -18,7 +19,6 @@ mongoose.connect(
             console.log('Connected to database.');
         }
 });
-
 //Middlewares
 app.use(cors());
 app.use(morgan('dev'));
@@ -37,7 +37,6 @@ const orderRoutes = require('./routes/order');
 const searchRoutes = require('./routes/search'); 
 
 
-
 app.use('/api', productRoutes);
 app.use('/api', categorytRoutes);
 app.use('/api', ownerRoutes);
@@ -49,11 +48,10 @@ app.use('/api', orderRoutes);
 app.use('/api', searchRoutes);
 
 
-
-app.listen(3000, err => {
+app.listen(3001, err => {
     if(err){
         console.log(err);
     } else {
-        console.log('Listen on PORT', 3000);
+        console.log('Listen on PORT', 3001);
     }
 });

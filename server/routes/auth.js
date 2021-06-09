@@ -14,6 +14,7 @@ router.post('/auth/signup', async (req, res) =>{
             newUser.email = req.body.email;
             newUser.password = req.body.password;
             await newUser.save();
+            
             let token =  jwt.sign(newUser.toJSON(), process.env.SECRET, {
                 expiresIn: 999999999999999999999 
             });

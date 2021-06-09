@@ -12,7 +12,7 @@
                     </div>
                     <!-- Searchbar -->
                     <div class="col-sm-6 pt-0">
-                        <Search />
+                        <Search /> 
                     </div>
                     <div class="col-sm-4"></div>
                 </div>
